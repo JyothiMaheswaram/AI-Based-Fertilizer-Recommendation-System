@@ -143,7 +143,15 @@ def digitaltwin():
 @app.route("/history")
 def history():
 
-    records = get_history()
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM history")
+    conn.commit()
+
+    records = []
+
+    conn.close()
 
     return render_template(
         "history.html",
