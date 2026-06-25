@@ -193,29 +193,7 @@ def history():
         records=records
     )
 
-@app.route("/queries")
-def queries():
 
-    if "user" not in session:
-        return redirect(url_for("login"))
-
-    return render_template("queries.html")
-
-@app.route("/submit_query", methods=["POST"])
-def submit_query():
-
-    question = request.form["question"]
-
-    answer = (
-        "Agriculture chatbot is temporarily unavailable. "
-        "Please contact administrator."
-    )
-
-    return render_template(
-        "queries.html",
-        question=question,
-        answer=answer
-    )
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
@@ -336,16 +314,6 @@ def predict_fertilizer():
     fertilizer=fertilizer,
     farm=latest_farm_data
 )
-@app.route("/submit", methods=["POST"])
-def submit():
-    question = request.form["question"]
-
-    answer = predict(question)
-
-    save_to_db(question, answer)
-
-    # redirect safely
-    return redirect(url_for("result"))
 
 @app.route("/result")
 def result():
