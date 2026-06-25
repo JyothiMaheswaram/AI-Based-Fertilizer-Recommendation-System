@@ -1,0 +1,190 @@
+body{
+    margin:0;
+    padding:0;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#a0d390,#a0d390);
+}
+
+nav{
+    background:#189518;
+    padding:15px;
+    text-align:center;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 15px;
+    font-weight:bold;
+}
+
+nav a:hover{
+    color:#c8e6c9;
+}
+
+.container{
+    width:400px;
+    margin:50px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0px 4px 15px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+h1{
+    text-align:center;
+    color:#1b5e20;
+}
+
+input{
+    width:90%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    background:#2e7d32;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#dde2dd;
+}
+
+.banner{
+    display:block;
+    margin:20px auto;
+    width:80%;
+    max-width:500px;
+    border-radius:15px;
+}
+
+/* Dashboard */
+
+.page-title{
+    text-align:center;
+    color:#1b5e20;
+    font-size:42px;
+    margin-top:20px;
+    font-weight:bold;
+}
+
+.dashboard-card{
+    width:650px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0px 4px 15px rgba(0,0,0,0.2);
+}
+
+.dashboard-card label{
+    display:block;
+    margin-top:12px;
+    margin-bottom:5px;
+    font-weight:bold;
+    color:#1b5e20;
+}
+
+.dashboard-card input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+.dashboard-card button{
+    width:100%;
+    margin-top:20px;
+    font-size:18px;
+}
+
+/* Result Box */
+
+.result-box{
+    margin-top:20px;
+    padding:15px;
+    text-align:center;
+    background:#e8f5e9;
+    border-radius:10px;
+    color:#1b5e20;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.result-box{
+    margin-top:20px;
+    padding:15px;
+    text-align:center;
+    background:#e8f5e9;
+    border-radius:10px;
+    color:#1b5e20;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.card{
+    width:60%;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0px 4px 15px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+.card p{
+    font-size:18px;
+    margin:10px 0;
+    text-align:center;
+}
+
+/* History Table */
+
+.history-table{
+    width:85%;
+    margin:30px auto;
+    border-collapse:collapse;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0px 5px 20px rgba(0,0,0,0.15);
+}
+
+.history-table th{
+    background:#2e7d32;
+    color:white;
+    padding:15px;
+    font-size:18px;
+}
+
+.history-table td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #e0e0e0;
+}
+
+.history-table tr:hover{
+    background:#f1f8e9;
+}
+
+.history-table tr:nth-child(even){
+    background:#fafafa;
+}
+
+.field-label{
+    display:block;
+    color:#2E7D32;
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:6px;
+    text-align:left;
+}

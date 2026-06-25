@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+</head>
+<body>
+
+<h1>Prediction Result</h1>
+
+{% if data %}
+
+<h3>Question</h3>
+<p>{{ data[0] }}</p>
+
+<h3>Answer</h3>
+<p>{{ data[1] }}</p>
+
+{% else %}
+
+<p>No data found</p>
+
+{% endif %}
+
+<br>
+
+<a href="/">Ask Another Question</a>
+
+</body>
+</html>

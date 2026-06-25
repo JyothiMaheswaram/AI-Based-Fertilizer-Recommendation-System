@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Digital Twin Farm</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<nav>
+
+<a href="/">Home</a>
+
+
+<a href="/digitaltwin">Digital Twin</a>
+
+<a href="/fertilizer">Fertilizer</a>
+
+<a href="/history">History</a>
+
+<a href="/queries">Queries</a>
+
+<a href="/login">Login</a>
+
+<a href="/register">Create Account</a>
+
+<a href="/about">About</a>
+
+<a href="/logout">Logout</a>
+
+
+</nav>
+
+<h1>🌾 Digital Twin Farm</h1>
+
+<div class="card">
+
+<h2>🌾 Virtual Farm Status</h2>
+
+{% if farm %}
+
+<p><b>Crop:</b> {{ farm.crop }}</p>
+
+<p><b>Soil:</b> {{ farm.soil }}</p>
+
+<p><b>Temperature:</b> {{ farm.temperature }} °C</p>
+
+<p><b>Humidity:</b> {{ farm.humidity }} %</p>
+
+<p><b>Soil Moisture:</b> {{ farm.moisture }}</p>
+
+<p><b>pH Value:</b> {{ farm.ph }}</p>
+
+<p><b>Nitrogen:</b> {{ farm.nitrogen }}</p>
+
+<p><b>Phosphorus:</b> {{ farm.phosphorus }}</p>
+
+<p><b>Potassium:</b> {{ farm.potassium }}</p>
+
+<p><b>Recommended Fertilizer:</b>
+<b style="color:green;">{{ farm.fertilizer }}</b></p>
+
+{% else %}
+
+<p>No farm data available.</p>
+
+{% endif %}
+
+</body>
+</html>
