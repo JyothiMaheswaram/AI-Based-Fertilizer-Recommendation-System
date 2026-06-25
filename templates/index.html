@@ -1,41 +1,431 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Fertilizer Recommendation System</title>
-    <link rel="stylesheet" href="/static/style.css">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Smart Fertilizer Recommendation & Digital Twin</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 
 <body>
 
+<!-- ================= NAVBAR ================= -->
+
 <nav>
 
-<a href="/home">Home</a>
+    <a href="#home">Home</a>
 
-<a href="/fertilizer">Fertilizer</a>
+    <a href="#fertilizer">Fertilizer</a>
 
-<a href="/digitaltwin">Digital Twin</a>
+    <a href="#digitaltwin">Digital Twin</a>
 
-<a href="/history">History</a>
+    <a href="#history">History</a>
 
-<a href="/about">About</a>
+    <a href="#about">About</a>
 
 </nav>
 
-<h1 style="
-    text-align:center;
-    font-size:40px;
-    color:#1b5e20;
-    font-weight:bold;">
-    🌱 AI Based Smart Fertilizer Recommendation & Digital Twin System
-</h1>
-<img src="/static/banner.jpg" class="banner" alt="Banner">
+
+<!-- ================= HOME ================= -->
+
+<section id="home">
+
+    <br><br>
+
+    <h1 style="text-align:center;
+               font-size:42px;
+               color:#1b5e20;
+               font-weight:bold;">
+
+        🌱 AI Based Smart Fertilizer Recommendation &
+        Digital Twin System
+
+    </h1>
+
+    <img src="{{ url_for('static', filename='banner.jpg') }}"
+         class="banner"
+         alt="Banner">
+
+    <div style="text-align:center;
+                font-size:30px;
+                margin-top:15px;">
+
+        <h2>Welcome</h2>
+
+        <p style="font-size:20px;
+                  width:80%;
+                  margin:auto;">
+
+            This project recommends the most suitable fertilizer
+            using Artificial Intelligence and real-time soil
+            parameters. The Digital Twin continuously represents
+            the farm condition virtually using sensor values.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ================= FERTILIZER ================= -->
+
+<section id="fertilizer">
+
+    <h1>🧪 Fertilizer Recommendation</h1>
+
+    <div class="container">
+
+        {% if fertilizer %}
+
+        <div class="result-box">
+
+            <h3>🌿 Recommended Fertilizer</h3>
+
+            <h2>{{ fertilizer }}</h2>
+
+        </div>
+
+        {% endif %}
+
+        <form action="/predict" method="POST">
+
+            <h2>Enter Parameter Details</h2>
+
+            <label class="field-label">Crop</label>
+
+            <select name="crop" required>
+
+                <option value="">Select Crop</option>
+
+                <option value="Cotton"
+                    {% if farm and farm.crop=="Cotton" %}selected{% endif %}>
+                    Cotton
+                </option>
+
+                <option value="Maize"
+                    {% if farm and farm.crop=="Maize" %}selected{% endif %}>
+                    Maize
+                </option>
+
+                <option value="Potato"
+                    {% if farm and farm.crop=="Potato" %}selected{% endif %}>
+                    Potato
+                </option>
+
+                <option value="Rice"
+                    {% if farm and farm.crop=="Rice" %}selected{% endif %}>
+                    Rice
+                </option>
+
+                <option value="Sugarcane"
+                    {% if farm and farm.crop=="Sugarcane" %}selected{% endif %}>
+                    Sugarcane
+                </option>
+
+                <option value="Tomato"
+                    {% if farm and farm.crop=="Tomato" %}selected{% endif %}>
+                    Tomato
+                </option>
+
+                <option value="Wheat"
+                    {% if farm and farm.crop=="Wheat" %}selected{% endif %}>
+                    Wheat
+                </option>
+
+            </select>
+
+            <br><br>
+
+            <label class="field-label">Soil Type</label>
+
+            <select name="soil" required>
+
+                <option value="">Select Soil</option>
+
+                <option value="Clay"
+                    {% if farm and farm.soil=="Clay" %}selected{% endif %}>
+                    Clay
+                </option>
+
+                <option value="Loamy"
+                    {% if farm and farm.soil=="Loamy" %}selected{% endif %}>
+                    Loamy
+                </option>
+
+                <option value="Sandy"
+                    {% if farm and farm.soil=="Sandy" %}selected{% endif %}>
+                    Sandy
+                </option>
+
+                <option value="Silt"
+                    {% if farm and farm.soil=="Silt" %}selected{% endif %}>
+                    Silt
+                </option>
+
+            </select>
+
+            <br><br>
+
+            <label class="field-label">Nitrogen</label>
+            <input type="number" name="nitrogen"
+                   value="{{ farm.nitrogen if farm else '' }}" required>
+
+            <br><br>
+
+            <label class="field-label">Phosphorus</label>
+            <input type="number" name="phosphorus"
+                   value="{{ farm.phosphorus if farm else '' }}" required>
+
+            <br><br>
+
+            <label class="field-label">Potassium</label>
+            <input type="number" name="potassium"
+                   value="{{ farm.potassium if farm else '' }}" required>
+
+            <br><br>
+
+            <label class="field-label">Soil pH</label>
+            <input type="number" step="0.1" name="ph"
+                   value="{{ farm.ph if farm else '' }}" required>
+
+            <br><br>
+
+            <label class="field-label">Soil Moisture (%)</label>
+            <input type="number" step="0.1" name="moisture"
+                   value="{{ farm.moisture if farm else '' }}" required>
+
+            <br><br>
+
+            <label class="field-label">Temperature (°C)</label>
+            <input type="number" name="temperature"
+                   value="{{ farm.temperature if farm else '' }}" required>
+
+            <br><br>
+
+            <label class="field-label">Humidity (%)</label>
+            <input type="number" name="humidity"
+                   value="{{ farm.humidity if farm else '' }}" required>
+
+            <br><br>
+
+            <button type="submit">
+                🌱 Predict Fertilizer
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
 
 
-<div style="text-align:center; margin-top:10px; font-size:30px;">
+<!-- ================= DIGITAL TWIN ================= -->
 
-    <h2>Welcome</h2>
+<section id="digitaltwin">
 
-</div>
+    <h1>🌾 Digital Twin Farm</h1>
+
+    <div class="card">
+
+        <h2>🌿 Virtual Farm Status</h2>
+
+        {% if farm %}
+
+        <p><b>Crop :</b> {{ farm.crop }}</p>
+        <p><b>Soil :</b> {{ farm.soil }}</p>
+        <p><b>Temperature :</b> {{ farm.temperature }} °C</p>
+        <p><b>Humidity :</b> {{ farm.humidity }} %</p>
+        <p><b>Soil Moisture :</b> {{ farm.moisture }}</p>
+        <p><b>pH :</b> {{ farm.ph }}</p>
+        <p><b>Nitrogen :</b> {{ farm.nitrogen }}</p>
+        <p><b>Phosphorus :</b> {{ farm.phosphorus }}</p>
+        <p><b>Potassium :</b> {{ farm.potassium }}</p>
+
+        <p>
+
+            <b>Recommended Fertilizer :</b>
+
+            <span style="color:green;font-weight:bold;">
+
+                {{ farm.fertilizer }}
+
+            </span>
+
+        </p>
+
+        {% else %}
+
+        <p>No farm data available.</p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+<!-- ================= HISTORY ================= -->
+
+<section id="history">
+
+    <h1>📜 Sensor History</h1>
+
+    {% if records %}
+
+    <table class="history-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Date</th>
+                <th>Crop</th>
+                <th>Temperature</th>
+                <th>Humidity</th>
+                <th>Fertilizer</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for row in records %}
+
+            <tr>
+
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <h3 style="text-align:center;color:gray;">
+
+        No History Available
+
+    </h3>
+
+    {% endif %}
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section id="about">
+
+    <div class="container">
+
+        <h1>About Project</h1>
+
+        <h2>Objective</h2>
+
+        <p>
+
+            Recommend suitable fertilizers using AI and sensor data.
+
+        </p>
+
+        <h2>Components</h2>
+
+        <ul>
+
+            <li>ESP32</li>
+
+            <li>DHT11 Temperature & Humidity Sensor</li>
+
+            <li>Soil Moisture Sensor</li>
+
+            <li>pH Sensor</li>
+
+            <li>NPK Sensor</li>
+
+        </ul>
+
+        <h2>Architecture</h2>
+
+        <p>
+
+            Sensors
+            <br>↓<br>
+
+            ESP32
+            <br>↓<br>
+
+            Database
+            <br>↓<br>
+
+            AI Model
+            <br>↓<br>
+
+            Fertilizer Recommendation
+            <br>↓<br>
+
+            Digital Twin Website
+
+        </p>
+
+        <h2>Project Features</h2>
+
+        <ul>
+
+            <li>AI Based Fertilizer Recommendation</li>
+
+            <li>Digital Twin Monitoring</li>
+
+            <li>Prediction History</li>
+
+            <li>Real-Time Farm Visualization</li>
+
+        </ul>
+
+    </div>
+
+</section>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+document.querySelectorAll('nav a').forEach(anchor => {
+
+    anchor.addEventListener('click', function(e){
+
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute('href'));
+
+        target.scrollIntoView({
+
+            behavior:'smooth',
+
+            block:'center'
+
+        });
+
+    });
+
+});
+
+</script>
+
 </body>
+
 </html>

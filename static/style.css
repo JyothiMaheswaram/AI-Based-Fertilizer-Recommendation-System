@@ -1,14 +1,21 @@
 body{
     margin:0;
     padding:0;
+    padding-top:80px;   /* Navbar kosam space */
     font-family:'Segoe UI',sans-serif;
     background:linear-gradient(135deg,#a0d390,#a0d390);
 }
 
 nav{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
     background:#189518;
-    padding:15px;
+    padding:15px 0;
     text-align:center;
+    z-index:1000;
+    box-shadow:0 2px 10px rgba(0,0,0,0.2);
 }
 
 nav a{
@@ -16,10 +23,12 @@ nav a{
     text-decoration:none;
     margin:0 15px;
     font-weight:bold;
+    transition:0.3s;
 }
 
 nav a:hover{
     color:#c8e6c9;
+    transform:scale(1.1);
 }
 
 .container{
@@ -187,4 +196,14 @@ button:hover{
     font-weight:bold;
     margin-bottom:6px;
     text-align:left;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+section{
+    min-height:100vh;
+    padding:100px 20px;
+    box-sizing:border-box;
 }
