@@ -100,17 +100,22 @@ def get_history():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM history")
+    cursor.execute("""
+        SELECT
+        date,
+        crop,
+        temperature,
+        humidity,
+        fertilizer
+        FROM history
+        ORDER BY id DESC
+    """)
 
     data = cursor.fetchall()
-
-    print("HISTORY DATA:", data)
 
     conn.close()
 
     return data
-
-
 # ---------------- ROUTES ----------------
 
 
@@ -137,15 +142,7 @@ def digitaltwin():
 @app.route("/history")
 def history():
 
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-
-    cursor.execute("DELETE FROM history")
-    conn.commit()
-
-    records = []
-
-    conn.close()
+    records = get_history()
 
     return render_template(
         "history.html",
