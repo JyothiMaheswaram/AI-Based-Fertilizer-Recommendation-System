@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
-import ollama
 import sqlite3
 import joblib
 import pandas as pd
@@ -207,31 +206,16 @@ def submit_query():
 
     question = request.form["question"]
 
-    try:
-        response = ollama.chat(
-            model="llama3.2",
-            messages=[
-    {
-        "role": "system",
-        "content": "You are an agriculture assistant. Give very short answers in maximum 2 bullet points. Keep answers under 50 words."
-    },
-    {
-        "role": "user",
-        "content": question
-    }
-]
-        )
-
-        answer = response["message"]["content"]
-
-    except Exception as e:
-        answer = str(e)
+    answer = (
+        "Agriculture chatbot is temporarily unavailable. "
+        "Please contact administrator."
+    )
 
     return render_template(
-    "queries.html",
-    question=question,
-    answer=answer
-)
+        "queries.html",
+        question=question,
+        answer=answer
+    )
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
