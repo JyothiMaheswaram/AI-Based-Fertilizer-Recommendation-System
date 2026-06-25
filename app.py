@@ -100,17 +100,11 @@ def get_history():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
-    cursor.execute("""
-        SELECT date,
-               crop,
-               temperature,
-               humidity,
-               fertilizer
-        FROM history
-        ORDER BY id DESC
-    """)
+    cursor.execute("SELECT * FROM history")
 
     data = cursor.fetchall()
+
+    print("HISTORY DATA:", data)
 
     conn.close()
 
