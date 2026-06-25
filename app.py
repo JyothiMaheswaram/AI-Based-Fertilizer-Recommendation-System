@@ -120,10 +120,13 @@ def get_history():
 # ---------------- ROUTES ----------------
 
 
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+
 @app.route("/home")
 def home_page():
-
-
     return render_template("index.html")
 
 @app.route("/fertilizer")
@@ -207,6 +210,7 @@ def predict_fertilizer():
 @app.route("/result")
 def result():
     data = get_latest()
+
     return render_template("result.html", data=data)
 
 if __name__ == "__main__":
