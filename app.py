@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect
 import sqlite3
 import joblib
 import pandas as pd
@@ -362,6 +362,19 @@ def history():
         "history.html",
         records=records
     )
+
+@app.route("/clear_history", methods=["POST"])
+def clear_history():
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM history")
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/history")
 
 @app.route("/analytics")
 def analytics():

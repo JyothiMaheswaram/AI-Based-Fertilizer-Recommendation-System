@@ -85,20 +85,39 @@
 
 <div class="result-box">
 
-<p><b>Temperature:</b> {{ sensor.temperature }} °C</p>
+<p><b>🌡 Temperature:</b> {{ sensor.temperature }} °C</p>
 
-<p><b>Humidity:</b> {{ sensor.humidity }} %</p>
+<p><b>💧 Humidity:</b> {{ sensor.humidity }} %</p>
 
-<p><b>Soil Moisture:</b> {{ sensor.soil }}</p>
+<p><b>🌱 Soil Moisture:</b> {{ sensor.soil }}</p>
 
-<p><b>pH:</b> {{ sensor.ph }}</p>
+<p><b>⚗ pH:</b> {{ sensor.ph }}</p>
 
-<p><b>Nitrogen:</b> {{ sensor.nitrogen }}</p>
+<hr>
 
-<p><b>Phosphorus:</b> {{ sensor.phosphorus }}</p>
+<h3>Enter NPK Values</h3>
 
-<p><b>Potassium:</b> {{ sensor.potassium }}</p>
+<label>Nitrogen (N)</label>
+<input type="number"
+       name="nitrogen"
+       placeholder="Enter Nitrogen"
+       required>
 
+<br><br>
+
+<label>Phosphorus (P)</label>
+<input type="number"
+       name="phosphorus"
+       placeholder="Enter Phosphorus"
+       required>
+
+<br><br>
+
+<label>Potassium (K)</label>
+<input type="number"
+       name="potassium"
+       placeholder="Enter Potassium"
+       required>
 </div>
 
 <button type="submit">
