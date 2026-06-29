@@ -1,6 +1,8 @@
 Flask
-pandas
-joblib
-scikit-learn
-Werkzeug
 gunicorn
+matplotlib
+pandas
+numpy
+scikit-learn
+joblib
+pyserial
