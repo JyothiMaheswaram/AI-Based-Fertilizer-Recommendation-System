@@ -33,32 +33,40 @@
 
 <h2>🌾 Virtual Farm Status</h2>
 
+<h3>📡 Live Sensor Data</h3>
+
+<p><b>Temperature:</b> {{ sensor.temperature }} °C</p>
+
+<p><b>Humidity:</b> {{ sensor.humidity }} %</p>
+
+<p><b>Soil Moisture:</b> {{ sensor.soil }}</p>
+
+<p><b>pH Value:</b> {{ sensor.ph }}</p>
+
+<p><b>Nitrogen:</b> {{ sensor.nitrogen }}</p>
+
+<p><b>Phosphorus:</b> {{ sensor.phosphorus }}</p>
+
+<p><b>Potassium:</b> {{ sensor.potassium }}</p>
+
+<hr>
+
 {% if farm %}
 
 <p><b>Crop:</b> {{ farm.crop }}</p>
 
-<p><b>Soil:</b> {{ farm.soil }}</p>
+<p><b>Soil Type:</b> {{ farm.soil }}</p>
 
-<p><b>Temperature:</b> {{ farm.temperature }} °C</p>
-
-<p><b>Humidity:</b> {{ farm.humidity }} %</p>
-
-<p><b>Soil Moisture:</b> {{ farm.moisture }}</p>
-
-<p><b>pH Value:</b> {{ farm.ph }}</p>
-
-<p><b>Nitrogen:</b> {{ farm.nitrogen }}</p>
-
-<p><b>Phosphorus:</b> {{ farm.phosphorus }}</p>
-
-<p><b>Potassium:</b> {{ farm.potassium }}</p>
-
-<p><b>Recommended Fertilizer:</b>
-<b style="color:green;">{{ farm.fertilizer }}</b></p>
+<p>
+<b>Recommended Fertilizer:</b>
+<span style="color:green;">
+{{ farm.fertilizer }}
+</span>
+</p>
 
 {% else %}
 
-<p>No farm data available.</p>
+<p>No Fertilizer Prediction Yet</p>
 
 {% endif %}
 

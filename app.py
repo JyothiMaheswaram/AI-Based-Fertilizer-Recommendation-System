@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import sqlite3
 import joblib
 import pandas as pd
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 app.secret_key = "smart_soil_project_123"
@@ -229,6 +230,10 @@ def home():
 # PREDICT FERTILIZER
 # -----------------------------
 
+# -----------------------------
+# PREDICT FERTILIZER
+# -----------------------------
+
 @app.route("/predict", methods=["POST"])
 def predict():
 
@@ -237,15 +242,20 @@ def predict():
     crop = request.form["crop"]
     soil = request.form["soil"]
 
-    ph = float(request.form["ph"])
-    moisture = float(request.form["moisture"])
+    import json
 
-    nitrogen = float(request.form["nitrogen"])
-    phosphorus = float(request.form["phosphorus"])
-    potassium = float(request.form["potassium"])
+    with open("database/sensor_data.json", "r") as f:
+        sensor = json.load(f)
 
-    temperature = float(request.form["temperature"])
-    humidity = float(request.form["humidity"])
+    temperature = sensor["temperature"]
+    humidity = sensor["humidity"]
+
+    moisture = sensor["soil"]
+    ph = sensor["ph"]
+
+    nitrogen = sensor["nitrogen"]
+    phosphorus = sensor["phosphorus"]
+    potassium = sensor["potassium"]
 
     fertilizer = get_fertilizer_prediction(
         crop,
@@ -287,13 +297,109 @@ def predict():
     records = get_history()
 
     return render_template(
-        "index.html",
+        "fertilizer.html",
         fertilizer=fertilizer,
         farm=latest_farm_data,
-        records=records
+        records=records,
+        sensor=sensor
     )
 
 
+# -----------------------------
+# SENSOR API
+# -----------------------------
+
+@app.route("/sensor")
+def sensor():
+
+    import json
+
+    with open("database/sensor_data.json", "r") as f:
+        data = json.load(f)
+
+    return jsonify(data)
+
+
+# -----------------------------
+# FERTILIZER PAGE
+# -----------------------------
+
+@app.route("/fertilizer")
+def fertilizer_page():
+
+    import json
+
+    with open("database/sensor_data.json", "r") as f:
+        sensor = json.load(f)
+
+    return render_template(
+        "fertilizer.html",
+        sensor=sensor,
+        farm=latest_farm_data,
+        fertilizer=None
+    )
+
+@app.route("/digitaltwin")
+def digital_twin():
+
+    import json
+
+    with open("database/sensor_data.json", "r") as f:
+        sensor = json.load(f)
+
+    return render_template(
+        "digitaltwin.html",
+        sensor=sensor,
+        farm=latest_farm_data
+    )
+
+@app.route("/history")
+def history():
+
+    records = get_history()
+
+    return render_template(
+        "history.html",
+        records=records
+    )
+
+@app.route("/analytics")
+def analytics():
+
+    import sqlite3
+    import matplotlib.pyplot as plt
+    import os
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT fertilizer, COUNT(*)
+        FROM history
+        GROUP BY fertilizer
+    """)
+
+    data = cursor.fetchall()
+    conn.close()
+
+    fertilizers = []
+    counts = []
+
+    for row in data:
+        fertilizers.append(row[0])
+        counts.append(row[1])
+
+    plt.figure(figsize=(6,4))
+    plt.bar(fertilizers, counts)
+    plt.title("Fertilizer Recommendation Analytics")
+    plt.xlabel("Fertilizer")
+    plt.ylabel("Count")
+
+    os.makedirs("static", exist_ok=True)
+    plt.savefig("static/analytics.png")
+    plt.close()
+
+    return render_template("analytics.html")
 # -----------------------------
 # RUN APP
 # -----------------------------

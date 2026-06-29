@@ -1,9 +1,9 @@
 {
-  "temperature": 45,
-  "humidity": 78,
-  "soil": 65,
-  "ph": 6.8,
-  "nitrogen": 150,
-  "phosphorus": 60,
-  "potassium": 40
+    "temperature": 26.7,
+    "humidity": 54.5,
+    "soil": 4095,
+    "ph": 2.56,
+    "nitrogen": 120,
+    "phosphorus": 60,
+    "potassium": 40
 }

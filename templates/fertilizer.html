@@ -81,72 +81,25 @@
     <option value="Silt" {% if farm and farm.soil=="Silt" %}selected{% endif %}>Silt</option>
 </select>
 
-<br><br>
+<h2>Live Sensor Data</h2>
 
-<label class="field-label">Nitrogen</label>
+<div class="result-box">
 
-<input type="number"
-       name="nitrogen"
-       value="{{ farm.nitrogen if farm else '' }}"
-       required>
+<p><b>Temperature:</b> {{ sensor.temperature }} °C</p>
 
-<br><br>
+<p><b>Humidity:</b> {{ sensor.humidity }} %</p>
 
-<label class="field-label">Phosphorus</label>
+<p><b>Soil Moisture:</b> {{ sensor.soil }}</p>
 
-<input type="number"
-       name="phosphorus"
-       value="{{ farm.phosphorus if farm else '' }}"
-       required>
+<p><b>pH:</b> {{ sensor.ph }}</p>
 
-<br><br>
+<p><b>Nitrogen:</b> {{ sensor.nitrogen }}</p>
 
-<label class="field-label">Potassium</label>
+<p><b>Phosphorus:</b> {{ sensor.phosphorus }}</p>
 
-<input type="number"
-       name="potassium"
-       value="{{ farm.potassium if farm else '' }}"
-       required>
+<p><b>Potassium:</b> {{ sensor.potassium }}</p>
 
-<br><br>
-
-<label class="field-label">Soil pH</label>
-
-<input type="number"
-       step="0.1"
-       name="ph"
-       value="{{ farm.ph if farm else '' }}"
-       required>
-
-<br><br>
-
-<label class="field-label">Soil Moisture (%)</label>
-
-<input type="number"
-       step="0.1"
-       name="moisture"
-       value="{{ farm.moisture if farm else '' }}"
-       required>
-
-<br><br>
-
-<label class="field-label">Temperature (°C)</label>
-
-<input type="number"
-       name="temperature"
-       value="{{ farm.temperature if farm else '' }}"
-       required>
-
-<br><br>
-
-<label class="field-label">Humidity (%)</label>
-
-<input type="number"
-       name="humidity"
-       value="{{ farm.humidity if farm else '' }}"
-       required>
-
-<br><br>
+</div>
 
 <button type="submit">
 🌱 Predict Fertilizer

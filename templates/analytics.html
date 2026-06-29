@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Analytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<nav>
+
+<a href="/">Home</a>
+
+<a href="/fertilizer">Fertilizer</a>
+
+<a href="/digitaltwin">Digital Twin</a>
+
+<a href="/history">History</a>
+
+<a href="/analytics">Analytics</a>
+
+<a href="/about">About</a>
+
+</nav>
+
+<h1>📊 Farm Analytics</h1>
+
+<div class="card">
+
+<h2>Fertilizer Recommendation Graph</h2>
+
+<img src="{{ url_for('static', filename='analytics.png') }}"
+     width="700">
+
+</div>
+
+</body>
+</html>
