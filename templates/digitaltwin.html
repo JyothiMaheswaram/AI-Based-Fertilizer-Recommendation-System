@@ -2,28 +2,29 @@
 <html>
 
 <head>
+
     <title>Digital Twin Farm</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 
 <body>
 
 <nav>
 
-<a href="/">Home</a>
+    <a href="/home">Home</a>
 
-<a href="/fertilizer">Fertilizer</a>
+    <a href="/fertilizer">Fertilizer</a>
 
-<a href="/digitaltwin">Digital Twin</a>
+    <a href="/digitaltwin">Digital Twin</a>
 
-<a href="/history">History</a>
+    <a href="/history">History</a>
 
-<a href="/about">About</a>
+    <a href="/analytics">Analytics</a>
 
-
-
+    <a href="/about">About</a>
 
 </nav>
 
@@ -31,44 +32,60 @@
 
 <div class="card">
 
-<h2>🌾 Virtual Farm Status</h2>
+    <h2>🌿 Virtual Farm Status</h2>
 
-<h3>📡 Live Sensor Data</h3>
+    <h3>📡 Live Sensor Data</h3>
 
-<p><b>Temperature:</b> {{ sensor.temperature }} °C</p>
+    <p><b>🌡 Temperature :</b> {{ sensor.temperature }} °C</p>
 
-<p><b>Humidity:</b> {{ sensor.humidity }} %</p>
+    <p><b>💧 Humidity :</b> {{ sensor.humidity }} %</p>
 
-<p><b>Soil Moisture:</b> {{ sensor.soil }}</p>
+    <p><b>🌱 Soil Moisture :</b> {{ sensor.soil }}</p>
 
-<p><b>pH Value:</b> {{ sensor.ph }}</p>
+    <p><b>🌧 Rainfall :</b> {{ sensor.rain }}</p>
 
-<p><b>Nitrogen:</b> {{ sensor.nitrogen }}</p>
+    <p><b>⚗ pH :</b> {{ sensor.ph }}</p>
 
-<p><b>Phosphorus:</b> {{ sensor.phosphorus }}</p>
+    <hr>
 
-<p><b>Potassium:</b> {{ sensor.potassium }}</p>
+    {% if farm %}
 
-<hr>
+    <h3>🌱 Farm Information</h3>
 
-{% if farm %}
+    <p><b>Crop :</b> {{ farm.crop }}</p>
 
-<p><b>Crop:</b> {{ farm.crop }}</p>
+    <p><b>Soil Type :</b> {{ farm.soil }}</p>
 
-<p><b>Soil Type:</b> {{ farm.soil }}</p>
+    <p><b>Nitrogen :</b> {{ farm.nitrogen }}</p>
 
-<p>
-<b>Recommended Fertilizer:</b>
-<span style="color:green;">
-{{ farm.fertilizer }}
-</span>
-</p>
+    <p><b>Phosphorus :</b> {{ farm.phosphorus }}</p>
 
-{% else %}
+    <p><b>Potassium :</b> {{ farm.potassium }}</p>
 
-<p>No Fertilizer Prediction Yet</p>
+    <p>
 
-{% endif %}
+        <b>🌿 Recommended Fertilizer :</b>
+
+        <span style="color:green;
+                     font-size:22px;
+                     font-weight:bold;">
+
+            {{ farm.fertilizer }}
+
+        </span>
+
+    </p>
+
+    {% else %}
+
+    <h3 style="color:gray;">
+        No Fertilizer Prediction Yet
+    </h3>
+
+    {% endif %}
+
+</div>
 
 </body>
+
 </html>

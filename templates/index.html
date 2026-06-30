@@ -2,19 +2,15 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>AI Smart Fertilizer Recommendation & Digital Twin</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
-
 </head>
 
-<body>
+<body {% if fertilizer %}onload="location.hash='fertilizer'"{% endif %}>
 
 <!-- ================= NAVBAR ================= -->
 
@@ -34,38 +30,35 @@
 
 </nav>
 
-
 <!-- ================= HOME ================= -->
 
 <section id="home">
+
     <h1 style="text-align:center;
                font-size:42px;
                color:#1b5e20;
                font-weight:bold;">
 
         🌱 AI Based Smart Fertilizer Recommendation &
-                    Digital Twin System
+        Digital Twin System
 
     </h1>
 
     <img src="{{ url_for('static', filename='banner.jpg') }}"
-         class="banner"
-         alt="Banner">
+         class="banner">
 
     <div style="text-align:center;
-                font-size:30px;
-                margin-top:15px;">
+                font-size:22px;
+                width:80%;
+                margin:auto;">
 
-        <h2>Welcome</h2>
+        <p>
 
-        <p style="font-size:20px;
-                  width:80%;
-                  margin:auto;">
+            This project recommends the best fertilizer
+            using Artificial Intelligence and Live Sensor Data.
 
-            This project recommends the most suitable fertilizer
-            using Artificial Intelligence and real-time soil
-            parameters. The Digital Twin continuously represents
-            the farm condition virtually using sensor values.
+            The Digital Twin continuously monitors the
+            farm in real-time using ESP32 and Firebase.
 
         </p>
 
@@ -97,125 +90,92 @@
 
             <h2>Enter Parameter Details</h2>
 
-            <label class="field-label">Crop</label>
+            <label>Crop</label>
 
             <select name="crop" required>
 
                 <option value="">Select Crop</option>
 
-                <option value="Cotton"
-                    {% if farm and farm.crop=="Cotton" %}selected{% endif %}>
-                    Cotton
-                </option>
-
-                <option value="Maize"
-                    {% if farm and farm.crop=="Maize" %}selected{% endif %}>
-                    Maize
-                </option>
-
-                <option value="Potato"
-                    {% if farm and farm.crop=="Potato" %}selected{% endif %}>
-                    Potato
-                </option>
-
-                <option value="Rice"
-                    {% if farm and farm.crop=="Rice" %}selected{% endif %}>
-                    Rice
-                </option>
-
-                <option value="Sugarcane"
-                    {% if farm and farm.crop=="Sugarcane" %}selected{% endif %}>
-                    Sugarcane
-                </option>
-
-                <option value="Tomato"
-                    {% if farm and farm.crop=="Tomato" %}selected{% endif %}>
-                    Tomato
-                </option>
-
-                <option value="Wheat"
-                    {% if farm and farm.crop=="Wheat" %}selected{% endif %}>
-                    Wheat
-                </option>
+                <option value="Cotton">Cotton</option>
+                <option value="Maize">Maize</option>
+                <option value="Potato">Potato</option>
+                <option value="Rice">Rice</option>
+                <option value="Sugarcane">Sugarcane</option>
+                <option value="Tomato">Tomato</option>
+                <option value="Wheat">Wheat</option>
 
             </select>
 
             <br><br>
 
-            <label class="field-label">Soil Type</label>
+            <label>Soil Type</label>
 
             <select name="soil" required>
 
                 <option value="">Select Soil</option>
 
-                <option value="Clay"
-                    {% if farm and farm.soil=="Clay" %}selected{% endif %}>
-                    Clay
-                </option>
-
-                <option value="Loamy"
-                    {% if farm and farm.soil=="Loamy" %}selected{% endif %}>
-                    Loamy
-                </option>
-
-                <option value="Sandy"
-                    {% if farm and farm.soil=="Sandy" %}selected{% endif %}>
-                    Sandy
-                </option>
-
-                <option value="Silt"
-                    {% if farm and farm.soil=="Silt" %}selected{% endif %}>
-                    Silt
-                </option>
+                <option value="Clay">Clay</option>
+                <option value="Loamy">Loamy</option>
+                <option value="Sandy">Sandy</option>
+                <option value="Silt">Silt</option>
 
             </select>
 
             <br><br>
 
-            <label class="field-label">Nitrogen</label>
-            <input type="number" name="nitrogen"
-                   value="{{ farm.nitrogen if farm else '' }}" required>
+            <h2>📡 Live Sensor Data</h2>
+
+            <div class="result-box">
+
+                <p><b>🌡 Temperature :</b>
+                    {{ sensor.temperature }} °C</p>
+
+                <p><b>💧 Humidity :</b>
+                    {{ sensor.humidity }} %</p>
+
+                <p><b>🌱 Soil Moisture :</b>
+                    {{ sensor.soil }}</p>
+
+                <p><b>🌧 Rainfall :</b>
+                    {{ sensor.rain }}</p>
+
+                <p><b>⚗ pH :</b>
+                    {{ sensor.ph }}</p>
+
+            </div>
+
+            <br>
+
+            <h2>Enter NPK Values</h2>
+
+            <label>Nitrogen (N)</label>
+
+            <input type="number"
+                   name="nitrogen"
+                   required>
 
             <br><br>
 
-            <label class="field-label">Phosphorus</label>
-            <input type="number" name="phosphorus"
-                   value="{{ farm.phosphorus if farm else '' }}" required>
+            <label>Phosphorus (P)</label>
+
+            <input type="number"
+                   name="phosphorus"
+                   required>
 
             <br><br>
 
-            <label class="field-label">Potassium</label>
-            <input type="number" name="potassium"
-                   value="{{ farm.potassium if farm else '' }}" required>
+            <label>Potassium (K)</label>
 
-            <br><br>
-
-            <label class="field-label">Soil pH</label>
-            <input type="number" step="0.1" name="ph"
-                   value="{{ farm.ph if farm else '' }}" required>
-
-            <br><br>
-
-            <label class="field-label">Soil Moisture (%)</label>
-            <input type="number" step="0.1" name="moisture"
-                   value="{{ farm.moisture if farm else '' }}" required>
-
-            <br><br>
-
-            <label class="field-label">Temperature (°C)</label>
-            <input type="number" name="temperature"
-                   value="{{ farm.temperature if farm else '' }}" required>
-
-            <br><br>
-
-            <label class="field-label">Humidity (%)</label>
-            <input type="number" name="humidity"
-                   value="{{ farm.humidity if farm else '' }}" required>
+            <input type="number"
+                   name="potassium"
+                   required>
 
             <br><br>
 
             <button type="submit">
+
                 🌱 Predict Fertilizer
+
             </button>
 
         </form>
@@ -224,55 +184,329 @@
 
 </section>
 
+<!-- ================= DIGITAL TWIN ================= -->
 
 <!-- ================= DIGITAL TWIN ================= -->
 
 <section id="digitaltwin">
 
-    <h1>🌾 Digital Twin Farm</h1>
+    <h1 class="page-title">🌾 Digital Twin Farm</h1>
 
-    <div class="card">
+    
 
-        <h2>🌿 Virtual Farm Status</h2>
+<div class="dashboard-card">
 
-        {% if farm %}
+    <h2>🌱 Farm Information</h2>
 
-        <p><b>Crop :</b> {{ farm.crop }}</p>
-        <p><b>Soil :</b> {{ farm.soil }}</p>
-        <p><b>Temperature :</b> {{ farm.temperature }} °C</p>
-        <p><b>Humidity :</b> {{ farm.humidity }} %</p>
-        <p><b>Soil Moisture :</b> {{ farm.moisture }}</p>
-        <p><b>pH :</b> {{ farm.ph }}</p>
-        <p><b>Nitrogen :</b> {{ farm.nitrogen }}</p>
-        <p><b>Phosphorus :</b> {{ farm.phosphorus }}</p>
-        <p><b>Potassium :</b> {{ farm.potassium }}</p>
+    <hr>
 
-        <p>
+    {% if farm %}
 
-            <b>Recommended Fertilizer :</b>
+    <p><b>🌾 Crop :</b> {{ farm.crop }}</p>
 
-            <span style="color:green;font-weight:bold;">
+    <p><b>🌍 Soil Type :</b> {{ farm.soil }}</p>
 
-                {{ farm.fertilizer }}
+    <p>
+<b>🌡 Temperature :</b>
+{{ sensor.temperature }} °C -
 
-            </span>
+{% if sensor.temperature < 20 %}
+Cool 🟢
+{% elif sensor.temperature <= 30 %}
+Normal ✅
+{% else %}
+High 🔴
+{% endif %}
+</p>
+
+<p>
+<b>💧 Humidity :</b>
+{{ sensor.humidity }} %
+
+{% if sensor.humidity < 40 %}
+- Low
+{% elif sensor.humidity <= 70 %}
+- Optimal ✅
+{% else %}
+- High
+{% endif %}
+</p>
+
+<p>
+<b>🌱 Soil Moisture :</b>
+
+{% if sensor.soil > 3000 %}
+Good ✅
+{% elif sensor.soil > 1500 %}
+Moderate
+{% else %}
+Dry
+{% endif %}
+</p>
+
+<p>
+<b>☔ Rainfall :</b>
+
+{% if sensor.rain > 3500 %}
+No Rain ☀️
+{% elif sensor.rain > 2000 %}
+Light Rain 🌦
+{% else %}
+Heavy Rain 🌧
+{% endif %}
+</p>
+
+<p>
+<b>🧪 Soil pH :</b>
+{{ sensor.ph }}
+
+{% if sensor.ph < 6.5 %}
+- Slightly Acidic
+{% elif sensor.ph <= 7.5 %}
+- Neutral ✅
+{% else %}
+- Alkaline
+{% endif %}
+</p>
+
+
+    {% else %}
+
+
+    <p>No Farm Information Available.</p>
+
+    {% endif %}
+
+
+</div>
+
+<br>
+
+<div class="dashboard-card">
+
+<h2>🧪 Soil Nutrient Analysis</h2>
+
+<hr>
+
+<p>
+<b>🟢 Nitrogen (N):</b> {{ farm.nitrogen }} kg/ha
+<br>
+
+{% if farm.nitrogen < 40 %}
+<span style="color:#e67e22;"><b>Status:</b> Low ⚠️</span><br>
+<b>Recommendation:</b> Apply Nitrogen-rich fertilizer.
+{% elif farm.nitrogen <= 80 %}
+<span style="color:green;"><b>Status:</b> Optimal ✅</span><br>
+<b>Recommendation:</b> Nitrogen level is sufficient.
+{% else %}
+<span style="color:red;"><b>Status:</b> Excess ⚠️</span><br>
+<b>Recommendation:</b> Avoid adding Nitrogen fertilizer.
+{% endif %}
+</p>
+
+<hr>
+
+<p>
+<b>🟡 Phosphorus (P):</b> {{ farm.phosphorus }} kg/ha
+<br>
+
+{% if farm.phosphorus < 30 %}
+<span style="color:#e67e22;"><b>Status:</b> Low ⚠️</span><br>
+<b>Recommendation:</b> Apply Phosphorus fertilizer.
+{% elif farm.phosphorus <= 60 %}
+<span style="color:green;"><b>Status:</b> Optimal ✅</span><br>
+<b>Recommendation:</b> Phosphorus level is balanced.
+{% else %}
+<span style="color:red;"><b>Status:</b> Excess ⚠️</span><br>
+<b>Recommendation:</b> Avoid additional Phosphorus.
+{% endif %}
+</p>
+
+<hr>
+
+<p>
+<b>🟣 Potassium (K):</b> {{ farm.potassium }} kg/ha
+<br>
+
+{% if farm.potassium < 30 %}
+<span style="color:#e67e22;"><b>Status:</b> Low ⚠️</span><br>
+<b>Recommendation:</b> Apply Potassium fertilizer.
+{% elif farm.potassium <= 60 %}
+<span style="color:green;"><b>Status:</b> Optimal ✅</span><br>
+<b>Recommendation:</b> Potassium level is sufficient.
+{% else %}
+<span style="color:red;"><b>Status:</b> Excess ⚠️</span><br>
+<b>Recommendation:</b> Avoid adding Potassium fertilizer.
+{% endif %}
+</p>
+
+</div>
+
+<br>
+
+<div class="dashboard-card">
+
+    <h2>🤖 AI Recommendation</h2>
+
+    <hr>
+
+    {% if farm %}
+
+    <p>
+
+        <b>🌿 Recommended Fertilizer :</b>
+
+        <span style="color:green;
+                     font-size:24px;
+                     font-weight:bold;">
+
+            {{ farm.fertilizer }}
+
+        </span>
+
+    </p>
+
+    <br>
+
+    <h3>🧠 AI Reason</h3>
+
+    <p>
+
+{{ farm.ai_reason }}
+
+</p>
+
+    {% else %}
+
+    <p>No AI Recommendation Available.</p>
+
+    {% endif %}
+
+</div>
+
+<br>
+
+<div class="dashboard-card">
+
+    <h2>💧 Soil Health Analysis</h2>
+
+    <hr>
+
+    <p>
+
+        <b>⚗ Current pH :</b>
+
+        {{ sensor.ph }}
+
+    </p>
+
+    <p>
+
+        <b>🌍 Soil Status :</b>
+
+        {{ ph_status }}
+
+    </p>
+
+    {% if sensor.ph < 5.5 %}
+
+    <p>
+
+        <b>💡 Recommendation :</b>
+
+        Apply agricultural lime to increase the soil pH.
+
+    </p>
+
+    {% elif sensor.ph < 6.5 %}
+
+    <p>
+
+        <b>💡 Recommendation :</b>
+
+        Slightly acidic soil. Regular monitoring is recommended.
+
+    </p>
+
+    {% elif sensor.ph <= 7.5 %}
+
+    <p>
+
+        <b>💡 Recommendation :</b>
+
+        Soil pH is ideal for most crops.
+
+    </p>
+
+    {% else %}
+
+    <p>
+
+        <b>💡 Recommendation :</b>
+
+        Soil is alkaline. Apply sulfur-based amendments if required.
+
+    </p>
+
+    {% endif %}
+
+</div>
+
+<br>
+
+<div class="dashboard-card">
+
+    <h2>🚨 Smart Alerts</h2>
+
+    <hr>
+
+    {% for alert in alerts %}
+
+        <p style="font-size:18px;
+                  font-weight:bold;
+                  color:#d32f2f;">
+
+            {{ alert }}
 
         </p>
 
-        {% else %}
+    {% endfor %}
 
-        <p>No farm data available.</p>
-
-        {% endif %}
-
-    </div>
+</div>
 
 </section>
+
+
 <!-- ================= HISTORY ================= -->
 
 <section id="history">
 
-    <h1>📜 Sensor History</h1>
+    <h1>📜 Prediction History</h1>
+    <div style="text-align:right; margin-bottom:20px;">
+
+<form action="/clear_history" method="POST">
+
+<button
+type="submit"
+onclick="return confirm('Are you sure you want to clear all history?')"
+style="
+background:#d32f2f;
+color:white;
+padding:10px 18px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+font-weight:bold;
+">
+
+🗑 Clear History
+
+</button>
+
+</form>
+
+</div>
 
     {% if records %}
 
@@ -283,9 +517,13 @@
             <tr>
 
                 <th>Date</th>
+
                 <th>Crop</th>
+
                 <th>Temperature</th>
+
                 <th>Humidity</th>
+
                 <th>Fertilizer</th>
 
             </tr>
@@ -294,19 +532,23 @@
 
         <tbody>
 
-            {% for row in records %}
+        {% for row in records %}
 
             <tr>
 
                 <td>{{ row[0] }}</td>
+
                 <td>{{ row[1] }}</td>
+
                 <td>{{ row[2] }}</td>
+
                 <td>{{ row[3] }}</td>
+
                 <td>{{ row[4] }}</td>
 
             </tr>
 
-            {% endfor %}
+        {% endfor %}
 
         </tbody>
 
@@ -325,6 +567,65 @@
 </section>
 
 
+<!-- ================= ANALYTICS ================= -->
+
+<section id="analytics">
+
+<h1 class="page-title">📊 Analytics Dashboard</h1>
+
+<!-- Summary Cards -->
+<div class="analytics-cards">
+
+    <div class="analytics-card">
+        <h3>Total Predictions</h3>
+        <h2>{{ total_predictions }}</h2>
+    </div>
+
+    <div class="analytics-card">
+        <h3>Most Used Fertilizer</h3>
+        <h2>{{ top_fertilizer }}</h2>
+    </div>
+
+    <div class="analytics-card">
+        <h3>Most Selected Crop</h3>
+        <h2>{{ top_crop }}</h2>
+    </div>
+
+    <div class="analytics-card">
+        <h3>Average Temperature</h3>
+        <h2>{{ avg_temp }} °C</h2>
+    </div>
+
+</div>
+
+<br><br>
+
+<div class="graph-grid">
+
+    <div class="graph-card">
+        <h3>🥧 Fertilizer Distribution</h3>
+        <img src="{{ url_for('static', filename='fertilizer_pie.png') }}">
+    </div>
+
+    <div class="graph-card">
+        <h3>📊 Crop Prediction Count</h3>
+        <img src="{{ url_for('static', filename='crop_bar.png') }}">
+    </div>
+
+    <div class="graph-card">
+        <h3>📈 Temperature Trend</h3>
+        <img src="{{ url_for('static', filename='temperature_line.png') }}">
+    </div>
+
+    <div class="graph-card">
+        <h3>📉 Humidity Trend</h3>
+        <img src="{{ url_for('static', filename='humidity_line.png') }}">
+    </div>
+
+</div>
+
+</section>
+
 <!-- ================= ABOUT ================= -->
 
 <section id="about">
@@ -337,19 +638,22 @@
 
         <p>
 
-            Recommend suitable fertilizers using AI and sensor data.
+            AI Based Smart Fertilizer Recommendation System
+            integrated with IoT sensors and Digital Twin Technology.
 
         </p>
 
-        <h2>Components</h2>
+        <h2>Hardware Used</h2>
 
         <ul>
 
             <li>ESP32</li>
 
-            <li>DHT11 Temperature & Humidity Sensor</li>
+            <li>DHT11 Sensor</li>
 
             <li>Soil Moisture Sensor</li>
+
+            <li>Rain Sensor</li>
 
             <li>pH Sensor</li>
 
@@ -357,40 +661,19 @@
 
         </ul>
 
-        <h2>Architecture</h2>
-
-        <p>
-
-            Sensors
-            <br>↓<br>
-
-            ESP32
-            <br>↓<br>
-
-            Database
-            <br>↓<br>
-
-            AI Model
-            <br>↓<br>
-
-            Fertilizer Recommendation
-            <br>↓<br>
-
-            Digital Twin Website
-
-        </p>
-
-        <h2>Project Features</h2>
+        <h2>Software Used</h2>
 
         <ul>
 
-            <li>AI Based Fertilizer Recommendation</li>
+            <li>Python Flask</li>
 
-            <li>Digital Twin Monitoring</li>
+            <li>Firebase Realtime Database</li>
 
-            <li>Prediction History</li>
+            <li>HTML</li>
 
-            <li>Real-Time Farm Visualization</li>
+            <li>CSS</li>
+
+            <li>Machine Learning (Random Forest)</li>
 
         </ul>
 
@@ -403,23 +686,19 @@
 
 <script>
 
-document.querySelectorAll('nav a').forEach(anchor => {
+document.querySelectorAll("nav a").forEach(anchor=>{
 
-    anchor.addEventListener('click', function(e){
+anchor.addEventListener("click",function(e){
 
-        e.preventDefault();
+e.preventDefault();
 
-        const target = document.querySelector(this.getAttribute('href'));
+document.querySelector(this.getAttribute("href")).scrollIntoView({
 
-        target.scrollIntoView({
+behavior:"smooth"
 
-            behavior:'smooth',
+});
 
-            block:'center'
-
-        });
-
-    });
+});
 
 });
 
