@@ -295,9 +295,41 @@ section{
 }
 
 .graph-card img{
-
     width:100%;
+    height:350px;
+    object-fit:contain;
+}
+/* ================= SMART ALERTS ================= */
 
+.alert-box{
+    padding:15px;
+    margin:12px 0;
     border-radius:10px;
+    font-size:18px;
+    font-weight:bold;
+    box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
 
+.high-alert{
+    background:#ffebee;
+    color:#c62828;
+    border-left:6px solid #d32f2f;
+}
+
+.medium-alert{
+    background:#fff3e0;
+    color:#ef6c00;
+    border-left:6px solid #fb8c00;
+}
+
+.low-alert{
+    background:#e3f2fd;
+    color:#1565c0;
+    border-left:6px solid #2196f3;
+}
+
+.normal-alert{
+    background:#e8f5e9;
+    color:#2e7d32;
+    border-left:6px solid #43a047;
 }

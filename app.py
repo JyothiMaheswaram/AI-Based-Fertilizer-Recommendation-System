@@ -356,6 +356,39 @@ def home():
     ph_status = get_ph_status(sensor["ph"])
 
     alerts = get_alerts(sensor)
+    # Analytics Summary
+    total_predictions = len(records)
+
+    top_fertilizer = "-"
+    top_crop = "-"
+    avg_temp = round(sensor["temperature"], 1)
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT fertilizer, COUNT(*)
+    FROM history
+    GROUP BY fertilizer
+    ORDER BY COUNT(*) DESC
+    LIMIT 1
+    """)
+    row = cursor.fetchone()
+    if row:
+        top_fertilizer = row[0]
+
+    cursor.execute("""
+    SELECT crop, COUNT(*)
+    FROM history
+    GROUP BY crop
+    ORDER BY COUNT(*) DESC
+    LIMIT 1
+    """)
+    row = cursor.fetchone()
+    if row:
+        top_crop = row[0]
+
+    conn.close()
 
     return render_template(
 
@@ -488,6 +521,7 @@ def predict():
         fertilizer
 
     )
+    generate_analytics()
 
     records = get_history()
 
@@ -495,24 +529,33 @@ def predict():
 
     alerts = get_alerts(sensor)
 
+    analytics = generate_analytics()
+
     return render_template(
 
-        "index.html",
+    "index.html",
 
-        fertilizer=fertilizer,
+    farm=latest_farm_data,
 
-        farm=latest_farm_data,
+    fertilizer=fertilizer,
 
-        records=records,
+    records=records,
 
-        sensor=sensor,
+    sensor=sensor,
 
-        ph_status=ph_status,
+    ph_status=ph_status,
 
-        alerts=alerts
+    alerts=alerts,
 
-    )
+    total_predictions=analytics["total_predictions"],
 
+    top_fertilizer=analytics["top_fertilizer"],
+
+    top_crop=analytics["top_crop"],
+
+    avg_temp=analytics["avg_temp"]
+
+)
 
 # =====================================================
 # SENSOR API
@@ -577,10 +620,174 @@ def clear_history():
 
 
 # =====================================================
-# ANALYTICS
+# GENERATE ANALYTICS
 # =====================================================
 
+def generate_analytics():
 
+    records = get_history()
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT fertilizer, COUNT(*)
+        FROM history
+        GROUP BY fertilizer
+    """)
+    fertilizer_data = cursor.fetchall()
+
+    cursor.execute("""
+        SELECT crop, COUNT(*)
+        FROM history
+        GROUP BY crop
+    """)
+    crop_data = cursor.fetchall()
+
+    conn.close()
+
+    fertilizers = [x[0] for x in fertilizer_data]
+    fert_counts = [x[1] for x in fertilizer_data]
+
+    crops = [x[0] for x in crop_data]
+    crop_counts = [x[1] for x in crop_data]
+
+    os.makedirs("static", exist_ok=True)
+
+    # Pie Chart
+    if fert_counts:
+
+        plt.figure(figsize=(5,5))
+
+        plt.pie(
+            fert_counts,
+            labels=fertilizers,
+            autopct="%1.1f%%",
+            startangle=90,
+            shadow=True,
+            explode=[0.08]*len(fert_counts)
+        )
+
+        plt.title("Fertilizer Distribution")
+        plt.tight_layout()
+        plt.savefig("static/fertilizer_pie.png")
+        plt.close()
+
+    # Crop Graph
+    if crop_counts:
+
+        plt.figure(figsize=(6,4))
+
+        colors = [
+            "#4CAF50",
+            "#2196F3",
+            "#FFC107",
+            "#9C27B0",
+            "#FF5722",
+            "#009688"
+        ]
+
+        bars = plt.bar(
+            crops,
+            crop_counts,
+            color=colors[:len(crops)]
+        )
+
+        plt.title("Crop Prediction Count")
+        plt.xlabel("Crop")
+        plt.ylabel("Predictions")
+
+        for bar in bars:
+
+            plt.text(
+                bar.get_x()+bar.get_width()/2,
+                bar.get_height()+0.05,
+                int(bar.get_height()),
+                ha="center"
+            )
+
+        plt.tight_layout()
+        plt.savefig("static/crop_bar.png")
+        plt.close()
+
+    sensor = get_sensor_data()
+
+    total_predictions = len(records)
+
+    top_fertilizer = "-"
+
+    top_crop = "-"
+
+    if fert_counts:
+        top_fertilizer = fertilizers[fert_counts.index(max(fert_counts))]
+
+    if crop_counts:
+        top_crop = crops[crop_counts.index(max(crop_counts))]
+
+    avg_temp = round(sensor["temperature"], 1)
+
+    return {
+
+    "records": records,
+
+    "total_predictions": total_predictions,
+
+    "top_fertilizer": top_fertilizer,
+
+    "top_crop": top_crop,
+
+    "avg_temp": avg_temp
+
+}
+
+@app.route("/analytics")
+def analytics():
+
+    records, fertilizers, fert_counts, crops, crop_counts = generate_analytics()
+
+    sensor = get_sensor_data()
+
+    total_predictions = len(records)
+
+    top_fertilizer = "-"
+    top_crop = "-"
+
+    if fert_counts:
+        top_fertilizer = fertilizers[fert_counts.index(max(fert_counts))]
+
+    if crop_counts:
+        top_crop = crops[crop_counts.index(max(crop_counts))]
+
+    avg_temp = round(sensor["temperature"],1)
+
+    ph_status = get_ph_status(sensor["ph"])
+    alerts = get_alerts(sensor)
+
+    return render_template(
+
+        "index.html",
+
+        farm=latest_farm_data,
+
+        fertilizer=None,
+
+        records=records,
+
+        sensor=sensor,
+
+        ph_status=ph_status,
+
+        alerts=alerts,
+
+        total_predictions=total_predictions,
+
+        top_fertilizer=top_fertilizer,
+
+        top_crop=top_crop,
+
+        avg_temp=avg_temp
+
+    )
 
 # =====================================================
 # RUN APP

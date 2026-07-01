@@ -460,17 +460,24 @@ Heavy Rain 🌧
 
     <hr>
 
-    {% for alert in alerts %}
+   {% for alert in alerts %}
 
-        <p style="font-size:18px;
-                  font-weight:bold;
-                  color:#d32f2f;">
+<div class="alert-box
+{% if 'Highly Acidic' in alert %}
+high-alert
+{% elif 'Irrigation' in alert %}
+medium-alert
+{% elif 'Rain' in alert %}
+low-alert
+{% else %}
+normal-alert
+{% endif %}">
 
-            {{ alert }}
+{{ alert }}
 
-        </p>
+</div>
 
-    {% endfor %}
+{% endfor %}
 
 </div>
 
@@ -611,18 +618,7 @@ font-weight:bold;
         <h3>📊 Crop Prediction Count</h3>
         <img src="{{ url_for('static', filename='crop_bar.png') }}">
     </div>
-
-    <div class="graph-card">
-        <h3>📈 Temperature Trend</h3>
-        <img src="{{ url_for('static', filename='temperature_line.png') }}">
     </div>
-
-    <div class="graph-card">
-        <h3>📉 Humidity Trend</h3>
-        <img src="{{ url_for('static', filename='humidity_line.png') }}">
-    </div>
-
-</div>
 
 </section>
 
